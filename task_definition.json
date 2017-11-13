@@ -47,5 +47,5 @@
     "timeout": 1800
   },
   "name": "dynamic_materializer",
-  "version": "0.0.1"
+  "version": "0.1.0"
 }
