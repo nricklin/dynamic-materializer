@@ -1,4 +1,4 @@
-FROM geographica/gdal2:2.2.2
+FROM nricklin/gdal2.3
 
 RUN apt-get install -y python-pip unzip
 RUN pip install -U pip
