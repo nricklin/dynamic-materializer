@@ -1,0 +1,51 @@
+{
+  "containerDescriptors": [
+    {
+      "type": "DOCKER",
+      "properties": {
+        "image": "nricklin/dynamic-materialization-task:latest"
+      }
+    }
+  ],
+  "description": "Materialize data from a Dynamic Mosiac",
+  "inputPortDescriptors": [
+    {
+      "required": true,
+      "type": "string",
+      "description": "The Dynamic project name",
+      "name": "project_name"
+    },
+    {
+      "required": true,
+      "type": "string",
+      "description": "The AOI (in geojson) of the data to materialize",
+      "name": "aoi_geojson"
+    },
+    {
+      "required": false,
+      "type": "string",
+      "name": "output_filename",
+      "description": "Filename of the output tif.  Default is dynamic.tif"
+    },
+    {
+      "required": false,
+      "type": "string",
+      "name": "version",
+      "description": "Version of the dynamic mosiac to use.  Default is latest"
+    }
+  ],
+  "outputPortDescriptors": [
+    {
+      "required": true,
+      "type": "directory",
+      "description": "Output data directory",
+      "name": "data"
+    }
+  ],
+  "properties": {
+    "isPublic": true,
+    "timeout": 1800
+  },
+  "name": "dynamic_materializer",
+  "version": "0.0.1"
+}
