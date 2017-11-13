@@ -1,11 +1,9 @@
-FROM tdgp/gdal
+FROM geographica/gdal2:2.2.2
 
-RUN curl -O https://bootstrap.pypa.io/get-pip.py
-RUN yum install -y unzip
-RUN python /get-pip.py
-RUN pip install -y boto3
-RUN pip install -y tiletanic
-RUN pip install -y boto3
+RUN apt-get install -y python-pip unzip
+RUN pip install -U pip
+RUN pip install boto3
+RUN pip install tiletanic
 ADD dynamic.py /dynamic.py
 ADD task.py /task.py
 

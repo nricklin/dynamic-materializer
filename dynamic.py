@@ -10,8 +10,7 @@ from tiletanic import tilecover, tileschemes
 def get_latest_version(project_name):
     bucket_name, prefix = 'flame-projects', project_name + '/'
     client = boto3.client('s3')
-    bucket_name, prefix = 'flame-projects', project_name + '/'
-    result = client.list_objects(Bucket=bucket, Prefix=prefix, Delimiter='/')
+    result = client.list_objects(Bucket=bucket_name, Prefix=prefix, Delimiter='/')
     versions = [o.get('Prefix').split('/')[-2] for o in result.get('CommonPrefixes')]
     versions.reverse()
     return versions[0]  
@@ -37,6 +36,7 @@ def materialize_tif(project_name, version, aoi_geojson, output_filename = 'dynam
     for key in (prefix + tiler.quadkey(tile) + '.tif' for tile in tilecover.cover_geometry(tiler, aoi, 12)):
 
         # Check if tif exists.
+        print key
         try:
             s3.Object(bucket_name=bucket_name, key=key).load()
         except botocore.exceptions.ClientError as e:
@@ -47,6 +47,9 @@ def materialize_tif(project_name, version, aoi_geojson, output_filename = 'dynam
 
         paths.append('/vsis3/{}/{}'.format(bucket_name, key))
 
+    if not paths:
+        raise Exception('No data found to materialize.')
+
     # Build an inmem vrt and translate.
     try:
         ds = gdal.BuildVRT('/vsimem/combo.vrt', paths, outputBounds=aoi.bounds)
@@ -54,3 +57,9 @@ def materialize_tif(project_name, version, aoi_geojson, output_filename = 'dynam
     finally:
         ds_out = None
         ds = None
+
+if __name__ == '__main__':
+    aoi_geojson = '{"type":"FeatureCollection","features":[{"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[[153.42390060424805,-28.00989892967722],[153.43647480010986,-28.00989892967722],[153.43647480010986,-27.999933788434422],[153.42390060424805,-27.999933788434422],[153.42390060424805,-28.00989892967722]]]}}]}'
+    project_name = 'DYNAMIC-Australia-Q32017'
+    version = '1'
+    materialize_tif(project_name, version, aoi_geojson, output_filename='/mnt/work/output/data/test.tif')

@@ -1,7 +1,7 @@
-import json
+import json, os
 from dynamic import materialize_tif, get_latest_version
-outdir = '/mnt/work/output/'
-indir = '/mnt/work/input/'
+
+os.makedirs('/mnt/work/output/data')
 
 input_data = json.load(open('/mnt/work/input/ports.json'))
 
