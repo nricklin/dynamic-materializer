@@ -3,7 +3,8 @@
     {
       "type": "DOCKER",
       "properties": {
-        "image": "nricklin/dynamic-materialization-task:latest"
+        "image": "nricklin/dynamic-materialization-task:latest",
+        "domain": "t2medium"
       }
     }
   ],
@@ -47,5 +48,5 @@
     "timeout": 1800
   },
   "name": "dynamic_materializer",
-  "version": "0.1.0"
+  "version": "0.1.1"
 }
