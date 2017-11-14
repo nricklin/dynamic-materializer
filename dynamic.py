@@ -47,6 +47,9 @@ def materialize_tif(project_name, version, aoi_geojson, output_filename = 'dynam
 
         paths.append('/vsis3/{}/{}'.format(bucket_name, key))
 
+    if len(paths) > 4:
+        raise Exception('Too big of an AOI requested.')
+
     if not paths:
         raise Exception('No data found to materialize.')
 
